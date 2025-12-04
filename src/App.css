@@ -119,6 +119,8 @@ body {
   background: radial-gradient(circle at top, #020617 0, #020014 55%);
 }
 
+/* feed layout */
+
 .feed-layout {
   display: grid;
   grid-template-columns: minmax(0, 2.1fr) minmax(260px, 0.9fr);
@@ -331,7 +333,7 @@ body {
   color: #6b7280;
 }
 
-/* placeholders */
+/* placeholder for other tabs */
 
 .coming-soon {
   max-width: 500px;
