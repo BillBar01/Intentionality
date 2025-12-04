@@ -1,40 +1,6 @@
 import React from "react";
 
-const feedItems = [
-  {
-    id: 1,
-    type: "challenge_post",
-    userName: "Alex",
-    time: "Today at 3:10 pm",
-    challengeTitle: "Week 3 · Do Hard Thing",
-    text: "Went to office hours for the first time and asked my professor for feedback on my project.",
-  },
-  {
-    id: 2,
-    type: "event_attendance",
-    userName: "Miles",
-    time: "Today at 8:05 am",
-    eventTitle: "Morning workout meetup",
-    text: "Checked in at the Outsiders style workout. First time showing up before 7 am.",
-  },
-  {
-    id: 3,
-    type: "milestone",
-    userName: "Kate",
-    time: "Yesterday",
-    milestone: "Completed 5 challenges",
-    text: "Earned the 5 challenges badge.",
-  },
-  {
-    id: 4,
-    type: "announcement",
-    userName: "Instructor update",
-    time: "Mon",
-    text: "This week we will focus on social risk. Try at least one challenge that involves talking to someone new.",
-  },
-];
-
-function HomeFeed() {
+function HomeFeed({ posts }) {
   return (
     <div className="feed-layout">
       {/* main feed column */}
@@ -42,11 +8,11 @@ function HomeFeed() {
         <h2 className="section-title">Home feed</h2>
         <p className="section-subtitle">
           Mix of challenge posts, event check ins, milestones, and instructor
-          updates.
+          updates. New posts you create will appear at the top.
         </p>
 
         <div className="feed-list">
-          {feedItems.map((item) => (
+          {posts.map((item) => (
             <FeedItem key={item.id} item={item} />
           ))}
         </div>
@@ -58,7 +24,8 @@ function HomeFeed() {
           <h3 className="side-title">This week&apos;s challenge</h3>
           <p className="side-text">
             Do one thing that feels uncomfortable but aligned with your values.
-            Share a short reflection and optionally a photo.
+            Share a short reflection and optionally a photo, video, or audio
+            note.
           </p>
           <button className="primary-btn">Create post for this challenge</button>
         </div>
@@ -118,8 +85,31 @@ function FeedItem({ item }) {
         {item.milestone && (
           <div className="feed-tag">Milestone · {item.milestone}</div>
         )}
+        {item.type === "assignment_submission" && (
+          <div className="feed-tag">Assignment submission</div>
+        )}
 
         <p className="feed-text">{item.text}</p>
+
+        {item.attachments && (
+          <div className="feed-attachments">
+            {item.attachments.imageName && (
+              <span className="attachment-pill">
+                📷 Photo: {item.attachments.imageName}
+              </span>
+            )}
+            {item.attachments.videoName && (
+              <span className="attachment-pill">
+                🎥 Video: {item.attachments.videoName}
+              </span>
+            )}
+            {item.attachments.audioName && (
+              <span className="attachment-pill">
+                🎙️ Audio: {item.attachments.audioName}
+              </span>
+            )}
+          </div>
+        )}
       </div>
     </article>
   );
@@ -133,6 +123,8 @@ function getBadgeForType(type) {
       return { label: "Event check in", variant: "event" };
     case "milestone":
       return { label: "Milestone", variant: "milestone" };
+    case "assignment_submission":
+      return { label: "Assignment", variant: "announcement" };
     case "announcement":
     default:
       return { label: "Announcement", variant: "announcement" };
